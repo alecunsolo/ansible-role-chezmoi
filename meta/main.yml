@@ -1,0 +1,13 @@
+galaxy_info:
+  author: Alessandro Cunsolo
+  description: Role to perform basic server setup
+  license: MIT
+
+  min_ansible_version: 2.1
+  platforms:
+  - name: EL
+    versions:
+    - all
+  galaxy_tags: []
+
+dependencies: []
