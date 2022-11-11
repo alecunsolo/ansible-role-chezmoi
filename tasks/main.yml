@@ -1,2 +1,33 @@
 ---
 # tasks file for chezmoi
+# Get latest version
+- block:
+  - name: Determine latest GitHub release (local)
+    delegate_to: localhost
+    become: false
+    ansible.builtin.uri:
+      url: "https://api.github.com/repos/{{ chezmoi_repo }}/releases/latest"
+      body_format: json
+    register: _github_release
+    until: _github_release.status == 200
+    retries: 5
+
+  - name: Set chezmoi_version
+    ansible.builtin.set_fact:
+      chezmoi_version: "{{ _github_release.json.tag_name | regex_replace('^v?(.*)$', '\\1') }}"
+      chezmoi_tag: _github_release.json.tag_name
+
+  when: (chezmoi_version is not defined) or (chezmoi_version == 'latest')
+  run_once: true
+
+- name: Download chezmoi
+  ansible.builtin.unarchive:
+    src: https://github.com/{{ chezmoi_repo }}/releases/download/v{{ chezmoi_version }}/chezmoi_{{ chezmoi_version }}_linux_{{ go_arch }}.tar.gz
+    dest: /usr/local/bin
+    include: ['chezmoi']
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0755'
+
+

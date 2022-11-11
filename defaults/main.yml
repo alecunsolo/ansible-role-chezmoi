@@ -1,2 +1,3 @@
 ---
 # defaults file for chezmoi
+chezmoi_repo: twpayne/chezmoi
