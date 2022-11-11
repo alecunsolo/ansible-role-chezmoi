@@ -1,0 +1,12 @@
+[Unit]
+Description=Update dotfiles for user %I
+
+[Timer]
+OnBootSec=1min
+OnCalendar=*-*-* *:00/10:00
+Persistent=false
+RandomizedDelaySec=60
+
+[Install]
+WantedBy=timers.target
+

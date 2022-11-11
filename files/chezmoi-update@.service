@@ -1,0 +1,19 @@
+[Unit]
+Description=Manage dotfiles for user %I
+After=network.target
+
+[Service]
+Type=oneshot
+User=%i
+ExecStart=/usr/local/bin/chezmoi update
+
+# Hardening
+ProtectSystem=full
+PrivateTmp=true
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
+
