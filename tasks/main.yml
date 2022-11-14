@@ -42,3 +42,6 @@
     - chezmoi-update@.service
   notify: systemd reload
 
+- name: Init chezmoi
+  import_tasks: init.yml
+  loop: '{{ chezmoi_init_users }}'

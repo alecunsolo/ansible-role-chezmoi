@@ -1,0 +1,13 @@
+---
+- name: Get user home directory
+  ansible.builtin.getent:
+    database: passwd
+    split: ':'
+    key: '{{ item }}'
+
+- name: Init chezmoi
+  become_user: '{{ item }}'
+  ansible.builtin.command:
+    cmd: /usr/local/bin/chezmoi init --apply {{ chezmoi_dotfiles_repo }}
+    creates: "{{ getent_passwd[item][4] }}/.local/chezmoi"
+
