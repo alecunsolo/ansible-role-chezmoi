@@ -4,3 +4,5 @@ chezmoi_repo: twpayne/chezmoi
 chezmoi_init_users: []
   # - user: XXX
   #   repo: YYY [optional]
+chezmoi_update_users: []
+  # - XXX

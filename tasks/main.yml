@@ -45,3 +45,11 @@
 - name: Init chezmoi
   include_tasks: init.yml
   loop: '{{ chezmoi_init_users }}'
+
+- name: Enable update service
+  ansible.builtin.systemd:
+    name: chezmoi-update@{{ item }}.timer
+    state: started
+    enabled: true
+    daemon_reload: true
+  loop: "{{ chezmoi_update_users }}"
