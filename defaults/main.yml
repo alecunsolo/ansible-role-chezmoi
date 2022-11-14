@@ -4,4 +4,4 @@ chezmoi_repo: twpayne/chezmoi
 chezmoi_users: []
   # - user: XXX
   #   repo: YYY [optional: dotfiles repository]
-  #   update: bool [optioal, default true]
+  #   update: bool [optional, default 'false']
