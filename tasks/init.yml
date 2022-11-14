@@ -3,11 +3,11 @@
   ansible.builtin.getent:
     database: passwd
     split: ':'
-    key: '{{ item }}'
+    key: '{{ item.user }}'
 
 - name: Init chezmoi
-  become_user: '{{ item }}'
+  become_user: '{{ item.user }}'
   ansible.builtin.command:
-    cmd: /usr/local/bin/chezmoi init --apply {{ chezmoi_dotfiles_repo }}
+    cmd: /usr/local/bin/chezmoi init --apply {{ item.repo | default('') }}
     creates: "{{ getent_passwd[item][4] }}/.local/share/chezmoi"
 
