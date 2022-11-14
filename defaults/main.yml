@@ -1,8 +1,7 @@
 ---
 # defaults file for chezmoi
 chezmoi_repo: twpayne/chezmoi
-chezmoi_init_users: []
+chezmoi_users: []
   # - user: XXX
-  #   repo: YYY [optional]
-chezmoi_update_users: []
-  # - XXX
+  #   repo: YYY [optional: dotfiles repository]
+  #   update: bool [optioal, default true]

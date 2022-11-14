@@ -44,7 +44,7 @@
 
 - name: Init chezmoi
   include_tasks: init.yml
-  loop: '{{ chezmoi_init_users }}'
+  loop: '{{ chezmoi_users }}'
 
 - name: Enable update service
   ansible.builtin.systemd:
@@ -52,4 +52,4 @@
     state: started
     enabled: true
     daemon_reload: true
-  loop: "{{ chezmoi_update_users }}"
+  loop: "{{ chezmoi_users | selectattr('update', 'true') | map(attribute='user') }}"
