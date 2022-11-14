@@ -2,3 +2,5 @@
 # defaults file for chezmoi
 chezmoi_repo: twpayne/chezmoi
 chezmoi_init_users: []
+chezmoi_dotfiles_repo: ''
+
