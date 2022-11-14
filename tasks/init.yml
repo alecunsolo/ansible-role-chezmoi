@@ -1,11 +1,11 @@
 ---
-- name: Get user home directory
+- name: '[ {{ item.user }} ] - Get user home directory'
   ansible.builtin.getent:
     database: passwd
     split: ':'
     key: '{{ item.user }}'
 
-- name: Init chezmoi
+- name: '[ {{ item.user }} ] - Init chezmoi' 
   become_user: '{{ item.user }}'
   ansible.builtin.command:
     cmd: /usr/local/bin/chezmoi init --apply {{ item.repo | default('') }}

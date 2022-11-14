@@ -46,7 +46,7 @@
   include_tasks: init.yml
   loop: '{{ chezmoi_users }}'
 
-- name: Enable update service
+- name: '[ {{ item }} ] - Enable update service'
   ansible.builtin.systemd:
     name: chezmoi-update@{{ item }}.timer
     state: started
