@@ -9,5 +9,5 @@
   become_user: '{{ item }}'
   ansible.builtin.command:
     cmd: /usr/local/bin/chezmoi init --apply {{ chezmoi_dotfiles_repo }}
-    creates: "{{ getent_passwd[item][4] }}/.local/chezmoi"
+    creates: "{{ getent_passwd[item][4] }}/.local/share/chezmoi"
 
