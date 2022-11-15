@@ -2,6 +2,7 @@
 # defaults file for chezmoi
 chezmoi_repo: twpayne/chezmoi
 chezmoi_users: []
-  # - user: XXX
-  #   repo: YYY [optional: dotfiles repository]
-  #   update: bool [optional, default 'false']
+# chezmoi_users:
+#   - user: XXX
+#     repo: YYY [optional: dotfiles repository]
+#     update: bool [optional, default 'false']

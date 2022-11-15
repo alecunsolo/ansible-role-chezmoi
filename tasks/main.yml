@@ -6,7 +6,7 @@
     delegate_to: localhost
     become: false
     ansible.builtin.uri:
-      url: "https://api.github.com/repos/{{ chezmoi_repo }}/releases/latest"
+      url: https://api.github.com/repos/{{ chezmoi_repo }}/releases/latest
       body_format: json
     register: _github_release
     until: _github_release.status == 200
@@ -24,8 +24,9 @@
   ansible.builtin.unarchive:
     src: https://github.com/{{ chezmoi_repo }}/releases/download/v{{ chezmoi_version }}/chezmoi_{{ chezmoi_version }}_linux_{{ go_arch }}.tar.gz
     dest: /usr/local/bin
-    include: ['chezmoi']
-    remote_src: yes
+    include:
+    - chezmoi
+    remote_src: true
     owner: root
     group: root
     mode: '0755'
@@ -33,13 +34,13 @@
 - name: Add update service
   ansible.builtin.copy:
     src: '{{ item }}'
-    dest: '/etc/systemd/system/{{ item }}'
+    dest: /etc/systemd/system/{{ item }}
     owner: root
     group: root
     mode: '0644'
   loop:
-    - chezmoi-update@.timer
-    - chezmoi-update@.service
+  - chezmoi-update@.timer
+  - chezmoi-update@.service
   notify: systemd reload
 
 - name: Init chezmoi

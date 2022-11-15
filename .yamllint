@@ -1,0 +1,20 @@
+---
+extends: default
+
+rules:
+  braces:
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+  brackets:
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+  empty-lines:
+    max: 1
+  indentation:
+    indent-sequences: consistent
+    check-multi-line-strings: true
+  line-length:
+    max: 120
+    level: warning
+  quoted-strings:
+    required: only-when-needed

@@ -5,9 +5,8 @@
     split: ':'
     key: '{{ item.user }}'
 
-- name: '[ {{ item.user }} ] - Init chezmoi' 
+- name: '[ {{ item.user }} ] - Init chezmoi'
   become_user: '{{ item.user }}'
   ansible.builtin.command:
     cmd: /usr/local/bin/chezmoi init --apply {{ item.repo | default('') }}
     creates: "{{ getent_passwd[item.user][4] }}/.local/share/chezmoi"
-
