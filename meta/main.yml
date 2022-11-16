@@ -1,8 +1,9 @@
 ---
 galaxy_info:
-  author: Alessandro Cunsolo
+  author: alecunsolo
   description: Role to perform basic server setup
   license: MIT
+  role_name: chezmoi
 
   min_ansible_version: 2.1
   platforms:
