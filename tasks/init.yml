@@ -6,6 +6,7 @@
     key: '{{ item.user }}'
 
 - name: '[ {{ item.user }} ] - Init chezmoi'
+  become: true
   become_user: '{{ item.user }}'
   ansible.builtin.command:
     cmd: /usr/local/bin/chezmoi init --apply {{ item.repo | default('') }}
