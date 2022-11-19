@@ -19,4 +19,4 @@
   tasks:
     - name: Include ansible-role-chezmoi.
       ansible.builtin.include_role:
-        name: ansible-role-chezmoi
+        name: alecunsolo.chezmoi
