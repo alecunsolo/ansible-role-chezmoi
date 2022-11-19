@@ -1,6 +1,9 @@
 ---
 # Get latest version
-- block:
+- name: Get the latest version
+  when: (chezmoi_version is not defined) or (chezmoi_version == 'latest')
+  run_once: true
+  block:
   - name: Determine latest GitHub release (local).
     delegate_to: localhost
     become: false
@@ -16,9 +19,6 @@
       chezmoi_version: "{{ _github_release.json.tag_name | regex_replace('^v?(.*)$', '\\1') }}"
       chezmoi_tag: "{{ _github_release.json.tag_name }}"
 
-  when: (chezmoi_version is not defined) or (chezmoi_version == 'latest')
-  run_once: true
-
 - name: Test if chezmoi is already installed.
   ansible.builtin.stat:
     path: /usr/local/bin/chezmoi
@@ -33,7 +33,7 @@
 
 - name: Parse version string.
   ansible.builtin.set_fact:
-    chezmoi_installed_tag: "{{ cz_ver.stdout | regex_search('chezmoi version ([^,]+)','\\1') | first }}"
+    chezmoi_installed_tag: "{{ cz_ver.stdout | regex_search('chezmoi version ([^,]+)', '\\1') | first }}"
   when: cz_ver.rc is defined and cz_ver.rc == 0
 
 - name: Download chezmoi.
@@ -55,7 +55,7 @@
     owner: root
     group: root
     mode: '0644'
-  notify: systemd reload
+  notify: Reload daemons
 
 - name: Add update systemd timer.
   ansible.builtin.template:
@@ -64,7 +64,8 @@
     owner: root
     group: root
     mode: '0644'
-  notify: systemd reload
+  notify: Reload daemons
 
-- include_tasks: init.yml
+- name: Initialize chezmoi for users.
+  ansible.builtin.include_tasks: init.yml
   loop: '{{ chezmoi_users }}'

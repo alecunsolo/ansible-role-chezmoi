@@ -1,5 +1,5 @@
 ---
 # handlers file for chezmoi
-- name: systemd reload
+- name: Reload daemons
   ansible.builtin.systemd:
     daemon_reload: true

@@ -8,5 +8,5 @@
         state: present
   tasks:
     - name: Include ansible-role-chezmoi.
-      include_role:
+      ansible.builtin.include_role:
         name: ansible-role-chezmoi
