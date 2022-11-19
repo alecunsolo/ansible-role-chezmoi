@@ -15,10 +15,27 @@
   - name: Set chezmoi_version
     ansible.builtin.set_fact:
       chezmoi_version: "{{ _github_release.json.tag_name | regex_replace('^v?(.*)$', '\\1') }}"
-      chezmoi_tag: _github_release.json.tag_name
+      chezmoi_tag: "{{ _github_release.json.tag_name }}"
 
   when: (chezmoi_version is not defined) or (chezmoi_version == 'latest')
   run_once: true
+
+- name: Test if chezmoi is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/chezmoi
+  register: cz
+
+- name: Get installed version
+  ansible.builtin.command:
+    cmd: /usr/local/bin/chezmoi --version
+  changed_when: false
+  register: cz_ver
+  when: cz.stat.executable is defined and cz.stat.executable
+
+- name: Parse version string
+  ansible.builtin.set_fact:
+    chezmoi_installed_tag: "{{ cz_ver.stdout | regex_search('chezmoi version ([^,]+)','\\1') | first }}"
+  when: cz_ver.rc is defined and cz_ver.rc == 0
 
 - name: Download chezmoi
   ansible.builtin.unarchive:
@@ -30,6 +47,7 @@
     owner: root
     group: root
     mode: '0755'
+  when: chezmoi_installed_tag is not defined or chezmoi_installed_tag != chezmoi_tag
 
 - name: Add update service
   ansible.builtin.copy:
