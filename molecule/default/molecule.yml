@@ -19,7 +19,7 @@ provisioner:
       all:
         chezmoi_users:
           - user: testuser
-            repo: https://gitea.panfiloslab.com/ansible/dotfiles-server.git
+            repo: alecunsolo/dotfiles-server
             start_timer: true
 verifier:
   name: ansible
