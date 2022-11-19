@@ -6,6 +6,16 @@
       ansible.builtin.user:
         name: '{{ chezmoi_users[0].user }}'
         state: present
+    - name: Update apt cache.
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family | lower == "debian"
+    - name: Install git.
+      ansible.builtin.package:
+        name: git
+        state: present
+
   tasks:
     - name: Include ansible-role-chezmoi.
       ansible.builtin.include_role:
