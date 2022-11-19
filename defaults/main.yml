@@ -1,6 +1,7 @@
 ---
 # defaults file for chezmoi
 chezmoi_repo: twpayne/chezmoi
+chezmoi_update_cron: hourly
 chezmoi_users: []
 # chezmoi_users:
 #   - user: XXX

@@ -3,7 +3,7 @@ Description=Update dotfiles for user %I
 
 [Timer]
 OnBootSec=1min
-OnCalendar=*-*-* *:00/10:00
+OnCalendar={{ chezmoi_update_cron }}
 Persistent=false
 RandomizedDelaySec=60
 
