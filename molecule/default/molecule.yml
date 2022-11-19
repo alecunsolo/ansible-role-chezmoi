@@ -14,6 +14,13 @@ platforms:
     privileged: true
 provisioner:
   name: ansible
+  inventory:
+    group_vars:
+      all:
+        chezmoi_users:
+          - user: testuser
+            repo: https://gitea.panfiloslab.com/ansible/dotfiles-server.git
+            start_timer: true
 verifier:
   name: ansible
 lint: |

@@ -5,4 +5,4 @@ chezmoi_users: []
 # chezmoi_users:
 #   - user: XXX
 #     repo: YYY [optional: dotfiles repository]
-#     update: bool [optional, default 'false']
+#     start_timer: bool [optional, default 'false']

@@ -1,11 +1,6 @@
 ---
 - name: Converge
   hosts: all
-  vars:
-    chezmoi_users:
-      - user: testuser
-        repo: https://gitea.panfiloslab.com/ansible/dotfiles-server.git
-        update: true
   pre_tasks:
     - name: Ensure test user exists.
       ansible.builtin.user:

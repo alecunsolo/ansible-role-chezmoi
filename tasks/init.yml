@@ -11,3 +11,13 @@
   ansible.builtin.command:
     cmd: /usr/local/bin/chezmoi init --apply {{ item.repo | default('') }}
     creates: "{{ getent_passwd[item.user][4] }}/.local/share/chezmoi"
+
+- name: Set helper variable
+  ansible.builtin.set_fact:
+    enable_service: '{{ item.start_timer is defined and (item.start_timer | bool) }}'
+
+- name: '[ {{ item.user }} ] - Enable update service'
+  ansible.builtin.systemd:
+    name: chezmoi-update@{{ item.user }}.timer
+    state: '{{ enable_service | ternary("started", "stopped") }}'
+    enabled: '{{ enable_service }}'
