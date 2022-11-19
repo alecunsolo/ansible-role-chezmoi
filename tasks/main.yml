@@ -16,8 +16,7 @@
 
   - name: Set chezmoi_version.
     ansible.builtin.set_fact:
-      chezmoi_version: "{{ _github_release.json.tag_name | regex_replace('^v?(.*)$', '\\1') }}"
-      chezmoi_tag: "{{ _github_release.json.tag_name }}"
+      chezmoi_version: "{{ _github_release.json.tag_name }}"
 
 - name: Test if chezmoi is already installed.
   ansible.builtin.stat:
@@ -33,12 +32,12 @@
 
 - name: Parse version string.
   ansible.builtin.set_fact:
-    chezmoi_installed_tag: "{{ cz_ver.stdout | regex_search('chezmoi version ([^,]+)', '\\1') | first }}"
+    chezmoi_installed_version: "{{ cz_ver.stdout | regex_search('chezmoi version ([^,]+)', '\\1') | first }}"
   when: cz_ver.rc is defined and cz_ver.rc == 0
 
 - name: Download chezmoi.
   ansible.builtin.unarchive:
-    src: https://github.com/{{ chezmoi_repo }}/releases/download/v{{ chezmoi_version }}/chezmoi_{{ chezmoi_version }}_linux_{{ go_arch }}.tar.gz
+    src: https://github.com/{{ chezmoi_repo }}/releases/download/{{ chezmoi_version }}/chezmoi_{{ chezmoi_version | regex_replace("^v", "") }}_linux_{{ go_arch }}.tar.gz
     dest: /usr/local/bin
     include:
     - chezmoi
@@ -46,7 +45,7 @@
     owner: root
     group: root
     mode: '0755'
-  when: chezmoi_installed_tag is not defined or chezmoi_installed_tag != chezmoi_tag
+  when: chezmoi_installed_version is not defined or chezmoi_installed_version != chezmoi_version
 
 - name: Add update systemd service.
   ansible.builtin.copy:
