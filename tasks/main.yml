@@ -1,8 +1,7 @@
 ---
-# tasks file for chezmoi
 # Get latest version
 - block:
-  - name: Determine latest GitHub release (local)
+  - name: Determine latest GitHub release (local).
     delegate_to: localhost
     become: false
     ansible.builtin.uri:
@@ -12,7 +11,7 @@
     until: _github_release.status == 200
     retries: 5
 
-  - name: Set chezmoi_version
+  - name: Set chezmoi_version.
     ansible.builtin.set_fact:
       chezmoi_version: "{{ _github_release.json.tag_name | regex_replace('^v?(.*)$', '\\1') }}"
       chezmoi_tag: "{{ _github_release.json.tag_name }}"
@@ -20,24 +19,24 @@
   when: (chezmoi_version is not defined) or (chezmoi_version == 'latest')
   run_once: true
 
-- name: Test if chezmoi is already installed
+- name: Test if chezmoi is already installed.
   ansible.builtin.stat:
     path: /usr/local/bin/chezmoi
   register: cz
 
-- name: Get installed version
+- name: Get installed version.
   ansible.builtin.command:
     cmd: /usr/local/bin/chezmoi --version
   changed_when: false
   register: cz_ver
   when: cz.stat.executable is defined and cz.stat.executable
 
-- name: Parse version string
+- name: Parse version string.
   ansible.builtin.set_fact:
     chezmoi_installed_tag: "{{ cz_ver.stdout | regex_search('chezmoi version ([^,]+)','\\1') | first }}"
   when: cz_ver.rc is defined and cz_ver.rc == 0
 
-- name: Download chezmoi
+- name: Download chezmoi.
   ansible.builtin.unarchive:
     src: https://github.com/{{ chezmoi_repo }}/releases/download/v{{ chezmoi_version }}/chezmoi_{{ chezmoi_version }}_linux_{{ go_arch }}.tar.gz
     dest: /usr/local/bin
@@ -49,7 +48,7 @@
     mode: '0755'
   when: chezmoi_installed_tag is not defined or chezmoi_installed_tag != chezmoi_tag
 
-- name: Add update service
+- name: Add update systemd timer/service.
   ansible.builtin.copy:
     src: '{{ item }}'
     dest: /etc/systemd/system/{{ item }}
@@ -61,6 +60,5 @@
   - chezmoi-update@.service
   notify: systemd reload
 
-- name: Init chezmoi
-  include_tasks: init.yml
+- include_tasks: init.yml
   loop: '{{ chezmoi_users }}'

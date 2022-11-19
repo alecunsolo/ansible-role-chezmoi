@@ -1,11 +1,11 @@
 ---
-- name: '[ {{ item.user }} ] - Get user home directory'
+- name: '[ {{ item.user }} ] - Get user home directory.'
   ansible.builtin.getent:
     database: passwd
     split: ':'
     key: '{{ item.user }}'
 
-- name: '[ {{ item.user }} ] - Init chezmoi'
+- name: '[ {{ item.user }} ] - Init chezmoi.'
   become: true
   become_user: '{{ item.user }}'
   ansible.builtin.command:
@@ -16,7 +16,7 @@
   ansible.builtin.set_fact:
     enable_service: '{{ item.start_timer is defined and (item.start_timer | bool) }}'
 
-- name: '[ {{ item.user }} ] - Enable update service'
+- name: '[ {{ item.user }} ] - Configure update systemd timer.'
   ansible.builtin.systemd:
     name: chezmoi-update@{{ item.user }}.timer
     state: '{{ enable_service | ternary("started", "stopped") }}'

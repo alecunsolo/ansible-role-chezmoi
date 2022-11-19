@@ -7,6 +7,6 @@
         name: '{{ chezmoi_users[0].user }}'
         state: present
   tasks:
-    - name: Include ansible-role-chezmoi
+    - name: Include ansible-role-chezmoi.
       include_role:
         name: ansible-role-chezmoi

@@ -5,11 +5,11 @@
   vars:
     chezmoi_init_repo_dir: .local/share/chezmoi
   tasks:
-  - name: Get stat of test user chezmoi directory
+  - name: Get stat of test user chezmoi directory.
     ansible.builtin.stat:
       path: /home/{{ chezmoi_users[0].user }}/{{ chezmoi_init_repo_dir }}
     register: cz_init
-  - name: Test variables
+  - name: Test dotfiles were initialized.
     ansible.builtin.assert:
       that:
       - cz_init.stat.exists
