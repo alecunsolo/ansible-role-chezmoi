@@ -5,8 +5,8 @@ on:
   push:
     branches:
       - main
-    schedule:
-      - cron: 30 5 * * MON  # Every monday at 5.30 AM
+  schedule:
+    - cron: 30 5 * * MON  # Every monday at 5.30 AM
 
 jobs:
   lint:
