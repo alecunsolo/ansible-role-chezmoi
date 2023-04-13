@@ -1,0 +1,13 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Update apt cache.
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family | lower == "debian"
+    - name: Install needed packages.
+      ansible.builtin.package:
+        name: sudo
+        state: present

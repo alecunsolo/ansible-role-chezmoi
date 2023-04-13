@@ -2,7 +2,7 @@
 exclude: ^\.gitignore$
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.3.0
+  rev: v4.4.0
   hooks:
   - id: trailing-whitespace
   - id: check-case-conflict
@@ -15,10 +15,10 @@ repos:
     args:
     - --fix=auto
 - repo: https://github.com/adrienverge/yamllint.git
-  rev: v1.28.0
+  rev: v1.30.0
   hooks:
   - id: yamllint
 - repo: https://github.com/ansible/ansible-lint.git
-  rev: v6.8.6
+  rev: v6.14.6
   hooks:
   - id: ansible-lint
