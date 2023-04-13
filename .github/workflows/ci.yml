@@ -1,52 +1,33 @@
 ---
-name: Continuous Integration
+name: CI
 on:
+  workflow_dispatch:
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
+    paths-ignore:
+      - '**/README.md'
   schedule:
     - cron: 30 5 * * MON  # Every monday at 5.30 AM
 
 jobs:
-  lint:
-    name: Lint
+  cicd:
+    name: Test role
     runs-on: ubuntu-latest
     steps:
       - name: Checkout.
         uses: actions/checkout@v3
-
       - name: Setup python
         uses: actions/setup-python@v4
         with:
           python-version: 3.x
-
       - name: Install dependencies.
-        run: pip install yamllint ansible-lint pre-commit
-
+        run: pip install yamllint ansible-core ansible-lint pre-commit molecule[podman]
       - name: Lint code.
         run: pre-commit run --all-files --color always --verbose
-
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        distro:
-          - rockylinux9
-          - debian11
-          - ubuntu2204
-    steps:
-      - name: Checkout.
-        uses: actions/checkout@v3
-
-      - name: Setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.x
-
-      - name: Install dependencies.
-        run: pip install yamllint ansible-core ansible-lint molecule[docker]
-
       - name: Run molecule test.
         run: molecule test
         env:

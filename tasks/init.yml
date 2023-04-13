@@ -19,5 +19,5 @@
 - name: Configure update systemd timer.
   ansible.builtin.systemd:
     name: chezmoi-update@{{ item.user }}.timer
-    state: '{{ enable_service | ternary("started", "stopped") }}'
-    enabled: '{{ enable_service }}'
+    state: '{{ item.start_timer | ternary("started", "stopped") }}'
+    enabled: '{{ item.start_timer }}'
