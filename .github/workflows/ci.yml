@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: 3.x
       - name: Install dependencies.
-        run: pip install yamllint ansible-core ansible-lint pre-commit molecule[podman]
+        run: pip install yamllint ansible-core ansible-lint pre-commit molecule molecule-plugins[podman]
       - name: Lint code.
         run: pre-commit run --all-files --color always --verbose
       - name: Run molecule test.
