@@ -1,6 +1,6 @@
+---
 exclude_paths:
   - .github/
-  - README.md
 
 skip_list:
   - yaml
