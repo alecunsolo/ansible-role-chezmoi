@@ -4,6 +4,11 @@
 Ansible Role: chezmoi
 =========
 
+## DISCLAIMER
+After [this](https://www.redhat.com/en/blog/furthering-evolution-centos-stream) announcement I will not test on RHEL anymore.
+
+---------
+
 An ansible role role that installs and initializes [chezmoi](https://github.com/twpayne/chezmoi).
 In addition to the main application, the module creates a systemd service and timer to be used to setup auto updates of dotfiles for the users.
 
